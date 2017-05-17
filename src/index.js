@@ -1,56 +1,25 @@
-import React        from 'react';
-import {render}     from 'react-dom';
-import App          from './components/App.js';
-import Home         from './components/Home.js';
-import views        from './components/views.js';
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { browserHistory } from 'react-router'
+import promisePolyfill from 'es6-promise'
 
-import {
-  browserHistory,
-  IndexRoute,
-  Redirect,
-  Route,
-  Router
-} from 'react-router';
+import Routes from './app/routes'
+import { appLoadingStarted } from './app/actions'
+import { createAppStore, store } from './app/store'
 
-import DataActions  from './actions/DataActions.js';
+promisePolyfill.polyfill()
+const appHistory = browserHistory
+createAppStore(appHistory)
+const appStore = store()
 
+const renderApp = () => render(
+  <Provider store={appStore}>
+    <Routes history={appHistory} dispatch={appStore.dispatch} />
+  </Provider>,
+  document.getElementById('app')
+)
 
-class AppInitializer {
+appStore.dispatch(appLoadingStarted())
 
-    buildRoutes(data) {
-        return data.pages.map((page, i) => {
-            console.log(page.slug)
-            const component = views[page.slug];
-            return (
-                <Route
-                    getComponent={(nextState, cb) => {
-                        require.ensure([], (require) => {
-                            cb(null, require(component).default);
-                        });
-                    }}
-                    key={ page.id }
-                    path={`/${page.slug}`}
-                />                  
-            );
-        });
-    }
-
-    run() {
-        DataActions.getPages((response)=>{
-            render(
-                <Router history={browserHistory}>
-                    <Route path="/" component={ App } >
-                        <IndexRoute component={ Home } />
-
-                        {this.buildRoutes(response)}
-                    </Route>
-                    <Redirect from="*" to="/" />
-                </Router>
-
-                , document.getElementById('app')
-            );
-        });
-    }
-}
-
-new AppInitializer().run();
+renderApp()

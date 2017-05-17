@@ -1,18 +1,28 @@
-import React from 'react';
-import Nav from './Nav.js';
+import React from 'react'
+import { connect } from 'react-redux'
 
-export default class App extends React.Component {
-    
-    constructor(props) {
-        super(props);
-    }
+import MainNav from './nav/MainNav'
+import HeaderNav from './nav/HeaderNav'
 
-    render() {
-        return (
-            <div className="wrapper">
-                <Nav />
-                {this.props.children}
-            </div>
-        );
-    }
+function App (props) {
+  const { nav } = props
+  return (
+    <div id='outer-wrapper'>
+      <div className='group' id='outer-container'>
+        <HeaderNav {...{nav}} />
+        <main id='page-wrap'>
+          {props.children}
+        </main>
+      </div>
+    </div>
+  )
 }
+
+function mapStateToProps (state) {
+  const { nav } = state
+  return {
+    nav
+  }
+}
+
+export default connect(mapStateToProps)(App)
