@@ -1,7 +1,7 @@
 import { GET_MAIN_NAV_SUCCEED, GET_HEADER_NAV_SUCCEED } from './actions'
 
 const initialState = {
-  main: {},
+  main: [],
   header: {}
 }
 

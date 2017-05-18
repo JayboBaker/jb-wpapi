@@ -1,10 +1,17 @@
 import request from 'superagent'
-import { wpApiUrl } from '../../app/constants'
+import { wpApiUrl, mainNavLocation, headerNavId } from '../../app/constants'
 
-const menuEndpoint = `${wpApiUrl}/wp-json/wp-api-menus/v2/menus` // Endpoint for getting Wordpress Menu
+const menuEndpointMain = `${wpApiUrl}/wp-json/wp-api-menus/v2/menu-locations`
+const menuEndpointHeader = `${wpApiUrl}/wp-json/wp-api-menus/v2/menus`
 
-export function fetchNav (navId) {
+export function fetchMainNav () {
   return request
-    .get(`${menuEndpoint}/${navId}`)
+    .get(`${menuEndpointMain}/${mainNavLocation}?depth=2&per_page=100`)
+    .then(res => res.body)
+}
+
+export function fetchHeaderNav () {
+  return request
+    .get(`${menuEndpointHeader}/${headerNavId}`)
     .then(res => res.body)
 }
