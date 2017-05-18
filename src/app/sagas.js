@@ -1,7 +1,7 @@
 import { takeLatest } from 'redux-saga'
-import { fork, put, call } from 'redux-saga/effects'
+import { fork, put } from 'redux-saga/effects'
 
-import { APP_LOADING_STARTED, appLoadingSucceed, appLoadingFailed} from './actions'
+import { APP_LOADING_STARTED, appLoadingSucceed, appLoadingFailed } from './actions'
 import { getMainNavStarted, getHeaderNavStarted } from '../components/nav/actions'
 
 import sageGetPage from '../components/page/sagaGetPage'
@@ -10,9 +10,11 @@ import sagaGetHeaderNav from '../components/nav/sagaGetHeaderNav'
 
 export function * initializeAppState () {
   try {
-    yield put(getMainNavStarted())
-    yield put(getHeaderNavStarted())
-    yield put(appLoadingSucceed())
+    yield [
+      put(getMainNavStarted()),
+      put(getHeaderNavStarted()),
+      put(appLoadingSucceed())
+    ]
   } catch (error) {
     yield put(appLoadingFailed())
     throw error
