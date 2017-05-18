@@ -12,7 +12,7 @@ module.exports = {
     './src/index' // This is where Webpack will be looking for the entry index.js file
   ],
   output: {
-    path: path.join(__dirname, 'public'), // This is used to specify folder for producion bundle. Will not be used here, but it's a good practice to have it
+    path: path.join(__dirname, 'dist'), // This is used to specify folder for producion bundle. Will not be used here, but it's a good practice to have it
     filename: 'bundle.js' // Filename for production bundle
   },
   resolve: {
