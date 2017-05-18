@@ -1,4 +1,4 @@
 export const wpApiUrl = 'http://website.dev' // Wordpress installation url
 
-export const mainNavId = 9
-export const headerNavId = 9
+export const mainNavLocation = 'primary'
+export const headerNavId = 3

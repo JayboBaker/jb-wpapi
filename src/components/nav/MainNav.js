@@ -7,14 +7,16 @@ class MainNav extends React.Component {
     event.preventDefault()
   }
 
+  renderChild (children) {
+    return children((child) => <div key={child.id}><Link to={`/${child['url']}`} style={{marginRight: '10px'}}>{child.title}</Link></div>)
+  }
+
   render () {
-    const mainNav = this.props.nav.main.items
+    const mainNav = this.props.nav.main
     return (
       <Menu right noOverlay className='mobile-nav bg-white col'>
         <div className='mobile-nav-inner'>
-          {mainNav && mainNav.map((nav) => {
-            return <div key={nav.id}><Link to={`/${nav['object_slug']}`} style={{marginRight: '10px'}}>{nav.title}</Link></div>
-          })}
+          {mainNav && mainNav.map((nav) => nav.children && this.renderChildren(nav.children))}
         </div>
       </Menu>
     )
